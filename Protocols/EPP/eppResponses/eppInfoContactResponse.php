@@ -111,6 +111,24 @@ class eppInfoContactResponse extends eppInfoResponse {
         return $this->queryPath('/epp:epp/epp:response/epp:resData/contact:infData/contact:email');
     }
 
+
+    public function getContactOrganizationNumber() {
+        try
+        {
+            return $this->queryPath('/epp:epp/epp:response/epp:extension/iis:infData/iis:orgno') ?? '';
+        }
+        catch(\Exception) {
+            return '';
+        }
+    }
+    public function getContactVatNumber() {
+        try {
+            return $this->queryPath('/epp:epp/epp:response/epp:extension/iis:infData/iis:vatno') ?? '';
+        } catch(\Exception) {
+            return '';
+        }
+    }
+
     /**
      *
      * @return string contact_name
@@ -121,7 +139,7 @@ class eppInfoContactResponse extends eppInfoResponse {
         if ($postalInfo instanceof eppContactPostalInfo) {
             return $postalInfo->getName();
         } else {
-            return null;
+            return '';
         }
     }
 
@@ -129,9 +147,9 @@ class eppInfoContactResponse extends eppInfoResponse {
         $pi = $this->getContactPostalInfo();
         $postalInfo = $pi[0];
         if ($postalInfo instanceof eppContactPostalInfo) {
-            return $postalInfo->getStreet(0);
+            return $postalInfo->getStreet(0) ?? '';
         } else {
-            return null;
+            return '';
         }
     }
 
@@ -141,7 +159,7 @@ class eppInfoContactResponse extends eppInfoResponse {
         if ($postalInfo instanceof eppContactPostalInfo) {
             return $postalInfo->getCity();
         } else {
-            return null;
+            return '';
         }
     }
 
@@ -151,7 +169,7 @@ class eppInfoContactResponse extends eppInfoResponse {
         if ($postalInfo instanceof eppContactPostalInfo) {
             return $postalInfo->getZipcode();
         } else {
-            return null;
+            return '';
         }
     }
 
@@ -161,7 +179,7 @@ class eppInfoContactResponse extends eppInfoResponse {
         if ($postalInfo instanceof eppContactPostalInfo) {
             return $postalInfo->getProvince();
         } else {
-            return null;
+            return '';
         }
     }
 
@@ -171,7 +189,7 @@ class eppInfoContactResponse extends eppInfoResponse {
         if ($postalInfo instanceof eppContactPostalInfo) {
             return $postalInfo->getCountrycode();
         } else {
-            return null;
+            return '';
         }
 
     }
@@ -187,7 +205,7 @@ class eppInfoContactResponse extends eppInfoResponse {
         if ($postalInfo instanceof eppContactPostalInfo) {
             return $postalInfo->getOrganisationName();
         } else {
-            return null;
+            return '';
         }
     }
 
@@ -218,7 +236,7 @@ class eppInfoContactResponse extends eppInfoResponse {
     }
 
     public function getContactAuthInfo() {
-        return $this->queryPath('/epp:epp/epp:response/epp:resData/contact:infData/contact:authInfo/contact:pw');
+        return $this->queryPath('/epp:epp/epp:response/epp:resData/contact:infData/contact:authInfo/contact:pw') ?? '';
     }
 
     /**
