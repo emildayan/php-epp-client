@@ -768,6 +768,44 @@ class eppConnection {
             return false;
     }
 
+    /** @param eppRequest $content **/
+    public function prepareWriteRequest($content)
+    {
+        $requestsessionid = $content->getSessionId();
+        $namespaces = $this->getDefaultNamespaces();
+        if (is_array($namespaces)) {
+            foreach ($namespaces as $id => $namespace) {
+                $content->addExtension($id, $namespace);
+            }
+        }
+
+        if ((!($content->hello)) && (!($content->login))) {
+            /**
+             * Add used namespaces to the correct places in the XML
+             */
+            $content->addNamespaces($this->getServices());
+            $content->addNamespaces($this->getExtensions());
+        }
+
+        $content->preserveWhiteSpace = false;
+        $content->formatOutput = false;
+        return $content->saveXML(null, LIBXML_NOEMPTYTAG);
+    }
+
+    public function fireWriteRequest($content)
+    {
+        if ($this->write($content))
+        {
+            $readcounter = 0;
+            $xml         = $this->read();
+            while ((strlen($xml) == 0) && ($readcounter < $this->retry))
+            {
+                $xml = $this->read();
+                $readcounter++;
+            }
+        }
+    }
+
     /**
      * Write the content domDocument to the stream
      * Read the answer
