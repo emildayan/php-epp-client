@@ -12,3 +12,5 @@ $this->addCommandResponse('Metaregistrar\EPP\iisEppCreateContactRequest', 'Metar
 include_once(dirname(__FILE__) . '/eppResponses/iisEppInfoDomainResponse.php');
 $this->addCommandResponse('Metaregistrar\EPP\eppInfoDomainRequest', 'Metaregistrar\EPP\iisEppInfoDomainResponse');
 
+include_once(dirname(__FILE__) . '/eppRequests/iisEppCreateDomainRequest.php');
+$this->addCommandResponse('Metaregistrar\EPP\iisEppCreateDomainRequest', 'Metaregistrar\EPP\eppCreateDomainResponse');
